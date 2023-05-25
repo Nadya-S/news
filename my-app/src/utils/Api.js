@@ -20,6 +20,13 @@ class Api {
     }).then(this._checkResponse);
   }
 
+  getComments(commentId) {
+    return fetch(`${this.baseUrl}/item/${commentId}.json`, {
+      method: "GET",
+      headers: this._headers,
+    }).then(this._checkResponse);
+  }
+
   _checkResponse(res) {
     if (res.ok) {
       return res.json();

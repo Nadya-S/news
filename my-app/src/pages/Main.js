@@ -1,45 +1,35 @@
 import Header from "../components/Header/Header";
 import NewsList from "../components/NewsList/NewsList";
-import { useState, useEffect } from "react";
-import Api from "../utils/Api";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import UpdateButton from "../components/UpdateButton/UpdateButton";
+import { resetAction } from "../store/newsReducer";
+import { getNews } from "../store/actions";
 
 const Main = () => {
-  const [newsArr, setNewsArray] = useState([]);
-  // console.log(newsArr);
-
-  const getNews = () => {
-    console.log('click')
-    // setNewsArray([]);
-    console.log(newsArr);
-    Api.getNewsId().then((id) => {
-      //console.log(id);
-      //console.log(id[0]);
-      let arr = [];
-      for (let i = 0; i < 30; i++) {
-        let news = id[i];
-        Api.getNews(news).then((res) => {
-          arr.push(res);
-          setNewsArray([...arr.sort((a,b) => b.time - a.time)]);
-        });
-      }
-    });
-  }
+  const dispatch = useDispatch();
+  const news = useSelector((state) => state.news);
 
   const autoUpdate = () => {
-    setInterval(getNews, 60000)
-  }
+    setInterval(getNews, 60000);
+  };
 
   useEffect(() => {
-    getNews();
+    console.log('reset')
+    dispatch(resetAction());
+  }, [])
+
+  useEffect(() => {
+    getNews(dispatch);
+    console.log('get')
     // autoUpdate();
   }, []);
 
   return (
     <section>
       <Header></Header>
-      <UpdateButton updateNews={getNews}></UpdateButton>
-      <NewsList newsArr={newsArr}></NewsList>
+      <UpdateButton></UpdateButton>
+      <NewsList newsArr={news}></NewsList>
     </section>
   );
 };
