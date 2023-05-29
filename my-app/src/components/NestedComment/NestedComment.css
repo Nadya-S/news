@@ -1,0 +1,25 @@
+.nested-comment {
+  font-size: 13px;
+}
+
+.nested-comment__info {
+  display: flex;
+  flex-direction: row;
+  color: rgb(72, 72, 72);
+  font-size: 12px;
+}
+
+.nested-comment__info-item {
+  margin: 5px 10px 5px 0;
+  padding-right: 10px;
+  border-right: 1px solid grey;
+}
+
+.nested-comment__info-item:last-child {
+  padding: 0;
+  border: none;
+}
+
+.nested-comment__text {
+  margin: 0 0 10px 0;
+}

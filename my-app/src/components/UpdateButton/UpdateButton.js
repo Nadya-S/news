@@ -1,14 +1,11 @@
-import { useDispatch } from "react-redux";
-import { getNews } from "../../store/actions";
+import "./UpdateButton.css";
 
-const UpdateButton = () => {
-  const dispatch = useDispatch();
-
-  const handleClick = () => {
-    getNews(dispatch);
-  };
-
-  return <button onClick={handleClick}>UPDATE</button>;
+const UpdateButton = ({ onClick }) => {
+  return (
+    <button className="update-button" onClick={onClick}>
+      Update news
+    </button>
+  );
 };
 
 export default UpdateButton;

@@ -1,48 +1,25 @@
-const NestedComment = ({comment, data}) => {
-    console.log(comment)
-    console.log(JSON.stringify(data, null, 2))
-    // console.log(Object.keys(data).length === allComents.length)
-    // console.log('loading', isLoading)
+import "./NestedComment.css";
+import { adaptDate } from "../../utils/adaptDate";
 
-    const getKids =  (kids) => {
-      console.log('kids', kids)
-      return kids.map(id => {
-        console.log('data id', data[id])
-        if(id in data) {
-            console.log('render')
-            return <NestedComment comment={data[id]} data={data} key={id}/>
-        }
-      });
-    //   console.log('result', result)
-    //   return result;
-    //   kids.map((id) => {
-    //     console.log('id', id)
-    //     console.log('id in data', id in data)
-    //     if (id in data) {
-    //         console.log('render')
-    //         console.log('data id', data[id])
-    //         return <NestedComment comment={data[id]} data={data}/>
-    //     }
-    //   })
-        // for (let i = 0; i < kids.length; i++) {
-            
-        //     let id = String(kids[i])
-        //     console.log('comment', data, id)
-            // console.log('id in data', id in data)
-        //     if (id in data) {
-        //       return <NestedComment comment={data[id]} data={data}/>
-        //     } 
-        // }
+const NestedComment = ({ comment, data }) => {
+  const getKids = (kids) => {
+    return kids.map((id) => {
+      if (id in data) {
+        return <NestedComment comment={data[id]} data={data} key={id} />;
+      }
+    });
+  };
 
-    }
-
-    return(
-        <li>
-            {comment.text}
-            {comment.hasOwnProperty('kids') ? <ul>{getKids(comment.kids)}</ul> : null}
-        </li>
-
-    )
-}
+  return (
+    <li className="nested-comment">
+      <div className="nested-comment__info">
+        <p className="nested-comment__info-item">author: {comment.by}</p>
+        <p className="nested-comment__info-item">{adaptDate(comment.time)}</p>
+      </div>
+      <p className="nested-comment__text">{comment.text}</p>
+      {comment.hasOwnProperty("kids") ? <ul>{getKids(comment.kids)}</ul> : null}
+    </li>
+  );
+};
 
 export default NestedComment;

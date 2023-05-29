@@ -1,0 +1,6 @@
+.news-list__list {
+  padding: 0;
+  margin: auto;
+  list-style-type: none;
+  background-color: rgb(232, 237, 235);
+}

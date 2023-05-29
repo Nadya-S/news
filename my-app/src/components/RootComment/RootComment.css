@@ -1,0 +1,40 @@
+.root-comment {
+  list-style-type: none;
+  text-align: left;
+  padding: 0 45px;
+}
+
+.root-comment__button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.root-comment__info {
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(213, 213, 213);
+  padding: 3px 7px;
+}
+
+.root-comment__info-item {
+  margin: 0 20px 0 0;
+  padding-right: 20px;
+  border-right: 1px solid grey;
+}
+
+.root-comment__info-item:last-child {
+  padding: 0;
+  border: none;
+}
+
+.root-comment__text {
+  margin: 13px 15px;
+  text-align: left;
+}
+
+.root-comment__tree {
+  padding: 0 30px;
+}

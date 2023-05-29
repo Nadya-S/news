@@ -1,35 +1,40 @@
 import Header from "../components/Header/Header";
+import UpdateButton from "../components/UpdateButton/UpdateButton";
 import NewsList from "../components/NewsList/NewsList";
+import Preloader from "../components/Preloader/Preloader";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import UpdateButton from "../components/UpdateButton/UpdateButton";
 import { resetAction } from "../store/newsReducer";
 import { getNews } from "../store/actions";
 
 const Main = () => {
   const dispatch = useDispatch();
   const news = useSelector((state) => state.news);
+  const isLoading = useSelector((state) => state.isLoading);
+
+  const updateNews = () => {
+    getNews(dispatch);
+  };
 
   const autoUpdate = () => {
-    setInterval(getNews, 60000);
+    setInterval(updateNews, 60000);
   };
 
   useEffect(() => {
-    console.log('reset')
     dispatch(resetAction());
-  }, [])
+  }, []);
 
   useEffect(() => {
     getNews(dispatch);
-    console.log('get')
-    // autoUpdate();
+    autoUpdate();
   }, []);
 
   return (
     <section>
-      <Header></Header>
-      <UpdateButton></UpdateButton>
-      <NewsList newsArr={news}></NewsList>
+      <Header>
+        <UpdateButton onClick={updateNews} />
+      </Header>
+      {isLoading ? <Preloader /> : <NewsList newsArr={news}></NewsList>}
     </section>
   );
 };

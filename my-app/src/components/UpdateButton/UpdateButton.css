@@ -1,0 +1,11 @@
+.update-button {
+  background-color: transparent;
+  border: 1px solid rgb(181, 181, 181);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 3px 5px;
+}
+
+.update-button:hover {
+  opacity: 0.5;
+}

@@ -2,12 +2,14 @@ const defaultState = {
   news: [],
   currentNews: {},
   rootComments: [],
+  isLoading: false,
 };
 
 const GET_NEWS = "GET_NEWS";
 const GET_CURRENT_NEWS = "GET_CURRENT_NEWS";
 const GET_ROOT_COMMENTS = "GET_ROOT_COMMENTS";
 const UPDATE_COMMENTS = "UPDATE_COMMENTS";
+const SET_IS_LOADING = "SET_IS_LOADING";
 const RESET = "RESET";
 
 export const newsReducer = (state = defaultState, action) => {
@@ -22,7 +24,9 @@ export const newsReducer = (state = defaultState, action) => {
         rootComments: action.payload,
       };
     case UPDATE_COMMENTS:
-        return {...state, rootComments: []}  
+      return { ...state, rootComments: [] };
+    case SET_IS_LOADING:
+      return { ...state, isLoading: action.payload };
     case RESET:
       return { ...state, currentNews: {}, rootComments: [] };
     default:
@@ -39,5 +43,12 @@ export const getRootCommentsAction = (payload) => ({
   type: GET_ROOT_COMMENTS,
   payload,
 });
-export const updateCommentsAction = (payload) => ({type: UPDATE_COMMENTS, payload})
+export const updateCommentsAction = (payload) => ({
+  type: UPDATE_COMMENTS,
+  payload,
+});
+export const setIsLoadingAction = (payload) => ({
+  type: SET_IS_LOADING,
+  payload,
+});
 export const resetAction = (payload) => ({ type: RESET, payload });

@@ -1,13 +1,16 @@
+import "./RootComment.css";
 import Api from "../../utils/Api";
 import { useCallback, useState } from "react";
 import NestedComment from "../NestedComment/NestedComment";
+import { adaptDate } from "../../utils/adaptDate";
+import { formatText } from "../../utils/formatText";
 
 const RootComment = ({ rootComment }) => {
   const [comments, setComments] = useState([]);
   const [allData, setAllData] = useState({});
   
-  const getAllComment = useCallback((arr) => { 
-
+  const getAllComment = useCallback((arr, comments) => { 
+    console.log(comments)
     for (let i = 0; i < arr.length; i++) {
       Api.getComments(arr[i]).then((res) => {
         let id = String(res.id);
@@ -17,9 +20,12 @@ const RootComment = ({ rootComment }) => {
         setComments([...comments.sort((a, b) => b.time - a.time)])
       
         if(res.hasOwnProperty('kids')) {
-          getAllComment(res.kids);
+          getAllComment(res.kids, comments);
         } 
         
+      })
+      .catch((err) => {
+        console.error(err);
       })
     }
   }, [])
@@ -35,24 +41,19 @@ const RootComment = ({ rootComment }) => {
 
   const handleClick = () => {
     if(comments.length === 0) {
-    console.log(rootComment.hasOwnProperty('kids'))
-    console.log(rootComment.id)
     if (rootComment.hasOwnProperty('kids')) {
-      console.log(rootComment.kids) // массив айдишников
-      getAllComment(rootComment.kids);
-      // console.log(getAllComment(rootComment.kids))
-      // getNestedComments(rootComment.kids, dispatch);
-    } else {
-      return <div>no comments</div>
+      setComments([]);
+      getAllComment(rootComment.kids, comments);
     }
   } else {
+    console.log('clean')
     setComments([]);
   }
   };
   // console.log(commentTree)
   // console.log(getAllComment());
   const renderComments = useCallback((comments) => {
-    console.log('render')
+    console.log(comments)
     return comments.map((comment) => {
       if(comment.parent === rootComment.id) {
         console.log('map')
@@ -63,22 +64,17 @@ const RootComment = ({ rootComment }) => {
 
   return (
     <li className="root-comment">
-      <button onClick={handleClick}>{rootComment.text}</button>
-      {/* {rootComment.hasOwnProperty('kids') && (
-        <ul>
-          {getAllComment(rootComment.kids)}
-        </ul>
-      )} */}
-      {/* {rootComment.hasOwnProperty('kids') && <NestedComment comment={}/>} */}
-      {/* <NestedComment comment={commentTree}></NestedComment> */}
+      <button className="root-comment__button" onClick={handleClick}>
+        <div className="root-comment__info">
+          <p className="root-comment__info-item">author: {rootComment.by}</p>
+          <p className="root-comment__info-item">{adaptDate(rootComment.time)}</p>
+          {rootComment.hasOwnProperty('kids') ? <p className="root-comment__info-item">...</p> : null}
+        </div>
+        <p className="root-comment__text">{formatText(rootComment.text)}</p>
+      </button>
       {comments.length > 0 && (
-        <ul>
+        <ul className="root-comment__tree">
           {renderComments(comments)}
-          {/* {comments.map((comment) => (
-            comment.parent === rootComment.id && 
-              <NestedComment comment={comment} allComents={comments} data={allData} isLoading={isLoading}/>
-            ))} */}
-          
         </ul>
       )}
     </li>

@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: rgb(39, 123, 89);
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.header__title {
+  text-align: left;
+  margin: 0;
+}
